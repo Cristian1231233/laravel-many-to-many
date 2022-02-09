@@ -6,6 +6,11 @@
        
             <div>Show</div>
             <h1>{{ $post->title }}</h1>
+            @forelse($post->tags as $tag)
+                <span class="badge bg-primary">{{$tag->name}}</span>
+            @empty
+                -
+            @endforelse
             @if ($post->category)
                 <h2>Categoria: {{ $post->category->name }}</h2>
             @endif

@@ -19,7 +19,7 @@
 
         <form action="{{ route('admin.posts.store') }}" method="POST">
             @csrf
-
+            
             <div class="mb-3">
                 <label for="title" class="form-label">Titolo</label>
                 <input value="{{ old('title') }}" type="text" name="title" class="form-control @error('title') is-invalid
@@ -39,14 +39,27 @@
               <div class="mb-3">
                   <label for="category_id" class="form-label">Inserisci una categoria</label>
                 <select name="category_id" id="category_id" class="form-select" form-label="Seleziona una categoria">
-                    <option selected>Selezionare una categoria</option>
+                    <option value="" >Selezionare una categoria</option>
                     @foreach ($categories as $category)
                    <option
-                        @if ($category->id == old('$category_id', $post->category_id)) selected @endif
+                        @if ($category->id == old('category_id')) selected @endif
                       
                      value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach                   
                   </select>
+                  <h2>Tag</h2>
+                  @foreach ( $tags as $tag)
+                  <span class="d-inline-block mr-3">
+                    <input type="checkbox"
+                       name="tags[]"
+                       value="{{ $tag->id }}"
+                       id="tag{{ $loop->iteration }}"
+                       @if (in_array($tag->id, old('tags', []))) checked @endif
+                         >
+                       
+                      <label for="tag{{ $loop->iteration }}">{{ $tag->name }}</label>
+                  </span>
+                  @endforeach
             </div>
               <button class="btn btn-success" type="submit">Invia</button>
               <button class="btn btn-secondary" type="reset">Reset</button>
